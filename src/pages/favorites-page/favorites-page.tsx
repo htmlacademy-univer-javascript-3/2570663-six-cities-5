@@ -1,7 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {Helmet} from 'react-helmet-async';
+
 function FavoritesPage() : JSX.Element {
   return (
     <div className="page">
+      <Helmet>
+        <title>Favorites - 6 cities</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
