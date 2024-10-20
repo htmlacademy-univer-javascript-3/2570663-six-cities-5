@@ -1,11 +1,13 @@
-import Card from '../../components/card/card';
 import {Helmet} from 'react-helmet-async';
+import {Offer} from '../../types/offer.ts';
+import OffersList from '../../components/offers-list/offers-list.tsx';
 
 type MainPageProps = {
   offersNumber: number;
+  offers: Offer[];
 }
 
-function MainPage({offersNumber} : MainPageProps) : JSX.Element {
+function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -98,13 +100,7 @@ function MainPage({offersNumber} : MainPageProps) : JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-              </div>
+              <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
