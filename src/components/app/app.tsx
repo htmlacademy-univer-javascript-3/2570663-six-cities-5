@@ -8,19 +8,26 @@ import OfferPage from '../../pages/offer-page/offer-page.tsx';
 import NotFoundPage from '../../pages/404-not-found-page/404-not-found-page.tsx';
 import {AuthorizationStatus} from '../../const.ts';
 import FavoritesPage from '../../pages/favorites-page/favorites-page.tsx';
+import {Offer} from '../../types/offer.ts';
 
 type AppScreenProps = {
   offersNumber: number;
+  offers: Offer[];
 }
 
-function App({offersNumber} : AppScreenProps) : JSX.Element {
+function App({offersNumber, offers} : AppScreenProps) : JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offersNumber={offersNumber} />}
+            element={
+              <MainPage
+                offersNumber={offersNumber}
+                offers={offers}
+              />
+            }
           />
           <Route
             path={AppRoute.Login}
