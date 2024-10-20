@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {Helmet} from 'react-helmet-async';
 
 function OfferPage(): JSX.Element {
