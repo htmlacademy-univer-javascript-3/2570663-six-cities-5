@@ -20,7 +20,7 @@ export const offers: Offer[] = [
       longitude: 2.342499,
       zoom: 16
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: true,
     rating: 1.3
   }, {
@@ -74,7 +74,7 @@ export const offers: Offer[] = [
     price: 403,
     previewImage: 'https://14.design.htmlacademy.pro/static/hotel/6.jpg',
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
         latitude: 48.85661,
         longitude: 2.351499,
@@ -86,8 +86,8 @@ export const offers: Offer[] = [
       longitude: 2.358499,
       zoom: 16
     },
-    isFavorite: false,
-    isPremium: true,
+    isFavorite: true,
+    isPremium: false,
     rating: 3.7
   }
 ];
