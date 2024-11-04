@@ -1,21 +1,19 @@
 import {Offer} from '../../types/offer';
 import Card from '../card/card';
-import {useState} from 'react';
 
 type OffersListProps = {
   offers: Offer[];
+  setActiveOfferId: (id: string | null) => void;
   isFavorite?: boolean;
 }
 
-function OffersList({offers, isFavorite = false}: OffersListProps) {
-  const [, setActiveCard] = useState<string | null>(null);
-
+function OffersList({offers, setActiveOfferId, isFavorite = false}: OffersListProps) {
   const handleMouseEnter = (id: string) => {
-    setActiveCard(id);
+    setActiveOfferId(id);
   };
 
   const handleMouseLeave = () => {
-    setActiveCard(null);
+    setActiveOfferId(null);
   };
 
   const containerClassName = isFavorite ? 'favorites__places' :
