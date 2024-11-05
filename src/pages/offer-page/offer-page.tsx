@@ -4,11 +4,8 @@ import {reviews} from '../../mocks/reviews.ts';
 import {nearbyOffers} from '../../mocks/nearby-offers.ts';
 import {Map} from '../../components/map/map';
 import {OffersList} from '../../components/offers-list/offers-list.tsx';
-import {useState} from 'react';
 
 export function OfferPage(): JSX.Element {
-  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-
   return (
     <div className="page">
       <Helmet>
@@ -168,13 +165,13 @@ export function OfferPage(): JSX.Element {
             </div>
           </div>
           <section>
-            <Map offers={nearbyOffers} activeOfferId={activeOfferId} />
+            <Map offers={nearbyOffers} activeOfferId={null} />
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={nearbyOffers} setActiveOfferId={setActiveOfferId} isNearby />
+            <OffersList offers={nearbyOffers} setActiveOfferId={() => {}} isNearby />
           </section>
         </div>
       </main>
