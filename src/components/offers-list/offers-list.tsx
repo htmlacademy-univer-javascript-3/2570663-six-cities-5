@@ -1,20 +1,18 @@
 import {Offer} from '../../types/offer';
 import {Card} from '../card/card';
-import {useState} from 'react';
 
 type OffersListProps = {
   offers: Offer[];
+  setActiveOfferId: (id: string | null) => void;
 }
 
-export function OffersList({offers}: OffersListProps) {
-  const [, setActiveCard] = useState<string | null>(null);
-
+export function OffersList({offers, setActiveOfferId}: OffersListProps) {
   const handleMouseEnter = (id: string) => {
-    setActiveCard(id);
+    setActiveOfferId(id);
   };
 
   const handleMouseLeave = () => {
-    setActiveCard(null);
+    setActiveOfferId(null);
   };
 
   return (
