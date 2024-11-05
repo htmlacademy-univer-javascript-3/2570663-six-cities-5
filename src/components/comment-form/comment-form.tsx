@@ -1,20 +1,21 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 
 const getRatingTitle = (star: number) => {
-  if (star === 5) {
-    return 'perfect';
-  } else if (star === 4) {
-    return 'good';
-  } else if (star === 3) {
-    return 'not bad';
-  } else if (star === 2) {
-    return 'badly';
-  } else {
-    return 'terribly';
+  switch (star) {
+    case 5:
+      return 'perfect';
+    case 4:
+      return 'good';
+    case 3:
+      return 'not bad';
+    case 2:
+      return 'badly';
+    default:
+      return 'terribly';
   }
 };
 
-function CommentForm() {
+export function CommentForm() {
   const [formData, setFormData] = useState({
     rating: '',
     review: ''
@@ -89,5 +90,3 @@ function CommentForm() {
     </form>
   );
 }
-
-export default CommentForm;

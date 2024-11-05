@@ -30,12 +30,14 @@ export function FavoritesList({offers} : FavoritesListProps) {
               </a>
             </div>
           </div>
-          {cityOffers.map((offer) => (
-            <FavoriteCard
-              offer={offer}
-              key={offer.id}
-            />
-          ))}
+          <div className={'favorites__places'}>
+            {cityOffers.map((offer) => (
+              <FavoriteCard
+                offer={offer}
+                key={offer.id}
+              />
+            ))}
+          </div>
         </li>
       ))}
     </ul>

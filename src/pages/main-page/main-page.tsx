@@ -1,13 +1,13 @@
 import {Helmet} from 'react-helmet-async';
 import {Offer} from '../../types/offer.ts';
-import OffersList from '../../components/offers-list/offers-list.tsx';
+import {OffersList} from '../../components/offers-list/offers-list.tsx';
 
 type MainPageProps = {
   offersNumber: number;
   offers: Offer[];
 }
 
-function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
+export function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -111,5 +111,3 @@ function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
     </div>
   );
 }
-
-export default MainPage;

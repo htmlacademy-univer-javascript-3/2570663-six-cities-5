@@ -8,7 +8,7 @@ type CardProps = {
   onMouseLeave: () => void;
 }
 
-function Card({offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Element {
+export function Card({offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Element {
   const stylePrefix = offer.isFavorite ? 'favorite' : 'cities';
   return (
     <article
@@ -55,5 +55,3 @@ function Card({offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Element {
     </article>
   );
 }
-
-export default Card;

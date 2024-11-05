@@ -6,7 +6,7 @@ type FavoritesPageProps = {
   offers: Offer[];
 }
 
-function FavoritesPage({offers} : FavoritesPageProps) : JSX.Element {
+export function FavoritesPage({offers} : FavoritesPageProps) : JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -57,5 +57,3 @@ function FavoritesPage({offers} : FavoritesPageProps) : JSX.Element {
     </div>
   );
 }
-
-export default FavoritesPage;
