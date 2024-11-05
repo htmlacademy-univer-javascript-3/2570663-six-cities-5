@@ -1,6 +1,6 @@
 import {Helmet} from 'react-helmet-async';
 import {Offer} from '../../types/offer.ts';
-import FavoritesList from '../../components/favorites-list/favorites-list.tsx';
+import {FavoritesList} from '../../components/favorites-list/favorites-list.tsx';
 
 type FavoritesPageProps = {
   offers: Offer[];

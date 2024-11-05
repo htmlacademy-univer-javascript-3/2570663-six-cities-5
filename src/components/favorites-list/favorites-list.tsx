@@ -1,11 +1,11 @@
 import {Offer} from '../../types/offer.ts';
-import OffersList from '../offers-list/offers-list.tsx';
+import {FavoriteCard} from '../favorite-card/favorite-card.tsx';
 
 type FavoritesListProps = {
   offers: Offer[];
 }
 
-function FavoritesList({offers} : FavoritesListProps) {
+export function FavoritesList({offers} : FavoritesListProps) {
   const groupedOffers = offers.reduce((acc, offer) => {
     if (offer.isFavorite) {
       const cityName = offer.city.name;
@@ -30,11 +30,14 @@ function FavoritesList({offers} : FavoritesListProps) {
               </a>
             </div>
           </div>
-          <OffersList offers={cityOffers} isFavorite />
+          {cityOffers.map((offer) => (
+            <FavoriteCard
+              offer={offer}
+              key={offer.id}
+            />
+          ))}
         </li>
       ))}
     </ul>
   );
 }
-
-export default FavoritesList;
