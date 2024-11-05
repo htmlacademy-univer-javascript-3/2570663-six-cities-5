@@ -1,6 +1,6 @@
 import {Helmet} from 'react-helmet-async';
 
-function LoginPage() : JSX.Element {
+export function LoginPage() : JSX.Element {
   return (
     <div className="page page--gray page--login">
       <Helmet>
@@ -46,5 +46,3 @@ function LoginPage() : JSX.Element {
     </div>
   );
 }
-
-export default LoginPage;

@@ -1,28 +1,22 @@
 import {Offer} from '../../types/offer';
-import Card from '../card/card';
-import {useState} from 'react';
+import {Card} from '../card/card';
 
 type OffersListProps = {
   offers: Offer[];
-  isFavorite?: boolean;
+  setActiveOfferId: (id: string | null) => void;
 }
 
-function OffersList({offers, isFavorite = false}: OffersListProps) {
-  const [, setActiveCard] = useState<string | null>(null);
-
+export function OffersList({offers, setActiveOfferId}: OffersListProps) {
   const handleMouseEnter = (id: string) => {
-    setActiveCard(id);
+    setActiveOfferId(id);
   };
 
   const handleMouseLeave = () => {
-    setActiveCard(null);
+    setActiveOfferId(null);
   };
 
-  const containerClassName = isFavorite ? 'favorites__places' :
-    'cities__places-list places__list tabs__content';
-
   return (
-    <div className={containerClassName}>
+    <div className={'cities__places-list places__list tabs__content'}>
       {offers.map((offer) => (
         <Card
           offer={offer}
@@ -34,5 +28,3 @@ function OffersList({offers, isFavorite = false}: OffersListProps) {
     </div>
   );
 }
-
-export default OffersList;

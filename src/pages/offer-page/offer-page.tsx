@@ -1,7 +1,7 @@
 import {Helmet} from 'react-helmet-async';
-import CommentForm from '../../components/comment-form/comment-form.tsx';
+import {CommentForm} from '../../components/comment-form/comment-form.tsx';
 
-function OfferPage(): JSX.Element {
+export function OfferPage(): JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -299,6 +299,3 @@ function OfferPage(): JSX.Element {
     </div>
   );
 }
-
-export default OfferPage;
-

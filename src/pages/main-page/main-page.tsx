@@ -1,13 +1,17 @@
 import {Helmet} from 'react-helmet-async';
 import {Offer} from '../../types/offer.ts';
-import OffersList from '../../components/offers-list/offers-list.tsx';
+import {OffersList} from '../../components/offers-list/offers-list.tsx';
+import {Map} from '../../components/map/map.tsx';
+import {useState} from 'react';
 
 type MainPageProps = {
   offersNumber: number;
   offers: Offer[];
 }
 
-function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
+export function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -100,10 +104,15 @@ function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList
+                offers={offers}
+                setActiveOfferId={setActiveOfferId}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map offers={offers} activeOfferId={activeOfferId} />
+              </section>
             </div>
           </div>
         </div>
@@ -111,5 +120,3 @@ function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
     </div>
   );
 }
-
-export default MainPage;

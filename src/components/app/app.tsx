@@ -1,13 +1,13 @@
-import MainPage from '../../pages/main-page/main-page';
+import {MainPage} from '../../pages/main-page/main-page';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 import {AppRoute} from '../../const.ts';
-import LoginPage from '../../pages/login-page/login-page.tsx';
-import PrivateRoute from '../private-route/private-route.tsx';
-import OfferPage from '../../pages/offer-page/offer-page.tsx';
-import NotFoundPage from '../../pages/404-not-found-page/404-not-found-page.tsx';
+import {LoginPage} from '../../pages/login-page/login-page.tsx';
+import {PrivateRoute} from '../private-route/private-route.tsx';
+import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
+import {NotFoundPage} from '../../pages/404-not-found-page/not-found-page.tsx';
 import {AuthorizationStatus} from '../../const.ts';
-import FavoritesPage from '../../pages/favorites-page/favorites-page.tsx';
+import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
 import {Offer} from '../../types/offer.ts';
 
 type AppScreenProps = {

@@ -1,12 +1,12 @@
 import {Helmet} from 'react-helmet-async';
 import {Offer} from '../../types/offer.ts';
-import FavoritesList from '../../components/favorites-list/favorites-list.tsx';
+import {FavoritesList} from '../../components/favorites-list/favorites-list.tsx';
 
 type FavoritesPageProps = {
   offers: Offer[];
 }
 
-function FavoritesPage({offers} : FavoritesPageProps) : JSX.Element {
+export function FavoritesPage({offers} : FavoritesPageProps) : JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -57,5 +57,3 @@ function FavoritesPage({offers} : FavoritesPageProps) : JSX.Element {
     </div>
   );
 }
-
-export default FavoritesPage;

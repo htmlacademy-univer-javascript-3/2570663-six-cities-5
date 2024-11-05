@@ -2,43 +2,36 @@ import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 
-type CardProps = {
+type FavoriteCardProps = {
   offer: Offer;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
 }
 
-export function Card({offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Element {
-  const stylePrefix = offer.isFavorite ? 'favorite' : 'cities';
+export function FavoriteCard({offer}: FavoriteCardProps): JSX.Element {
   return (
-    <article
-      className={`${stylePrefix}__card place-card`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
+    <article className={'favorite__card place-card'}>
       {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
-      <div className={`${stylePrefix}__image-wrapper place-card__image-wrapper`}>
+      <div className={'favorite__image-wrapper place-card__image-wrapper'}>
         <a href="#">
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
         </a>
       </div>
-      <div className={`${offer.isFavorite && 'favorites__card-info '}place-card__info`}>
+      <div className={'favorites__card-info place-card__info'}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button button ${offer.isFavorite && 'place-card__bookmark-button--active '}button`}
+            className={'place-card__bookmark-button button place-card__bookmark-button--active button'}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+            <span className="visually-hidden">In bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
