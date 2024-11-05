@@ -28,10 +28,11 @@ export function ReviewItem({reviewInfo} : ReviewItemProps) {
         </p>
         <time className="reviews__time" dateTime={reviewInfo.date}>
           {new Date(reviewInfo.date).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}</time>
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </time>
       </div>
     </li>
   );
