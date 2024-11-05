@@ -6,10 +6,11 @@ type CardProps = {
   offer: Offer;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  isNearby?: boolean;
 }
 
-export function Card({offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Element {
-  const stylePrefix = offer.isFavorite ? 'favorite' : 'cities';
+export function Card({offer, onMouseEnter, onMouseLeave, isNearby = false}: CardProps): JSX.Element {
+  const stylePrefix = isNearby ? 'near-places' : 'cities';
   return (
     <article
       className={`${stylePrefix}__card place-card`}
