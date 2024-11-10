@@ -1,15 +1,34 @@
 import {Helmet} from 'react-helmet-async';
+// import {useParams} from 'react-router-dom';
 import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
-import {reviews} from '../../mocks/reviews.ts';
-import {nearbyOffers} from '../../mocks/nearby-offers.ts';
+import {Reviews} from '../../mocks/reviews.ts';
+import {NearbyOffers} from '../../mocks/nearby-offers.ts';
 import {Map} from '../../components/map/map';
 import {OffersList} from '../../components/offers-list/offers-list.tsx';
+import {FullOffer} from '../../mocks/detailed-offer.ts';
+import {Point} from '../../types/offer.ts';
+
 
 export function OfferPage(): JSX.Element {
+  // const { id } = useParams();
+  const offer = FullOffer;
+  const points: Point[] = [
+    ...NearbyOffers.map((nearbyOffer) => ({
+      id: nearbyOffer.id,
+      city: nearbyOffer.city,
+      location: nearbyOffer.location
+    })),
+    {
+      id: FullOffer.id,
+      city: FullOffer.city,
+      location: FullOffer.location
+    }
+  ];
+
   return (
     <div className="page">
       <Helmet>
-        <title>Offers - 6 cities</title>
+        <title>{offer.title} - 6 cities</title>
       </Helmet>
       <header className="header">
         <div className="container">
@@ -44,34 +63,23 @@ export function OfferPage(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/room.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
+              {offer.images.map((image) => (
+                <div className="offer__image-wrapper" key={image}>
+                  <img className="offer__image" src={image} alt="Photo studio"/>
+                </div>
+              ))}
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              <div className="offer__mark">
-                <span>Premium</span>
-              </div>
+              {offer.isPremium && (
+                <div className="offer__mark">
+                  <span>Premium</span>
+                </div>
+              )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {offer.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -82,96 +90,68 @@ export function OfferPage(): JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: `${offer.rating * 20}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">4.8</span>
+                <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  Apartment
+                  {offer.type.charAt(0).toUpperCase() + offer.type.slice(1)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  3 Bedrooms
+                  {offer.bedrooms} Bedroom{offer.bedrooms > 1 ? 's' : ''}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max 4 adults
+                  Max {offer.maxAdults} adult{offer.maxAdults > 1 ? 's' : ''}
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;120</b>
+                <b className="offer__price-value">&euro;{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  <li className="offer__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="offer__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Towels
-                  </li>
-                  <li className="offer__inside-item">
-                    Heating
-                  </li>
-                  <li className="offer__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="offer__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="offer__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="offer__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="offer__inside-item">
-                    Fridge
-                  </li>
+                  {offer.goods.map((good) => (
+                    <li className="offer__inside-item" key={good}>
+                      {good}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
+                  <div className={`offer__avatar-wrapper ${offer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                   </div>
                   <span className="offer__user-name">
-                    Angelina
+                    {offer.host.name}
                   </span>
-                  <span className="offer__user-status">
-                    Pro
-                  </span>
+                  {offer.host.isPro && (
+                    <span className="offer__user-status">
+                      Pro
+                    </span>
+                  )}
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The
-                    building is green and from 18th century.
-                  </p>
-                  <p className="offer__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where
-                    the bustle of the city comes to rest in this alley flowery and colorful.
+                    {offer.description}
                   </p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} />
+              <ReviewsList reviews={Reviews} />
             </div>
           </div>
-          <section>
-            <Map offers={nearbyOffers} activeOfferId={null} />
+          <section className={'offer__map map'}>
+            <Map points={points} activePointId={FullOffer.id} />
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={nearbyOffers} setActiveOfferId={() => {}} isNearby />
+            <OffersList offers={NearbyOffers} setActiveOfferId={() => {}} isNearby />
           </section>
         </div>
       </main>

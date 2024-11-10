@@ -11,11 +11,10 @@ import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
 import {Offer} from '../../types/offer.ts';
 
 type AppScreenProps = {
-  offersNumber: number;
   offers: Offer[];
 }
 
-function App({offersNumber, offers} : AppScreenProps) : JSX.Element {
+function App({offers} : AppScreenProps) : JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -24,7 +23,6 @@ function App({offersNumber, offers} : AppScreenProps) : JSX.Element {
             path={AppRoute.Main}
             element={
               <MainPage
-                offersNumber={offersNumber}
                 offers={offers}
               />
             }

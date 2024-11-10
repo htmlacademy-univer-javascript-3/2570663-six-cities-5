@@ -1,6 +1,6 @@
 import {Review} from '../types/review.ts';
 
-export const reviews: Review[] = [
+export const Reviews: Review[] = [
   {
     id: 'cc034942-08bf-4571-825d-b9c7437e03fb',
     comment: 'We loved it so much, the house, the veiw, the location just great.. Highly reccomend :)',

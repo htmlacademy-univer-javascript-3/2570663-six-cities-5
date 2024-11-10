@@ -1,8 +1,4 @@
-export type User = {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-}
+import {User} from './user.ts';
 
 export type Review = {
   id: string;
