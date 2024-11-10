@@ -4,9 +4,10 @@ import {Card} from '../card/card';
 type OffersListProps = {
   offers: Offer[];
   setActiveOfferId: (id: string | null) => void;
+  isNearby?: boolean;
 }
 
-export function OffersList({offers, setActiveOfferId}: OffersListProps) {
+export function OffersList({offers, setActiveOfferId, isNearby = false}: OffersListProps) {
   const handleMouseEnter = (id: string) => {
     setActiveOfferId(id);
   };
@@ -15,8 +16,10 @@ export function OffersList({offers, setActiveOfferId}: OffersListProps) {
     setActiveOfferId(null);
   };
 
+  const containerName = isNearby ? 'near-places__list places__list' : 'cities__places-list places__list tabs__content';
+
   return (
-    <div className={'cities__places-list places__list tabs__content'}>
+    <div className={containerName}>
       {offers.map((offer) => (
         <Card
           offer={offer}

@@ -1,16 +1,22 @@
 import {Helmet} from 'react-helmet-async';
-import {Offer} from '../../types/offer.ts';
+import {Offer, Point} from '../../types/offer.ts';
 import {OffersList} from '../../components/offers-list/offers-list.tsx';
 import {Map} from '../../components/map/map.tsx';
 import {useState} from 'react';
 
 type MainPageProps = {
-  offersNumber: number;
   offers: Offer[];
 }
 
-export function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
+export function MainPage({offers} : MainPageProps) : JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+  const points: Point[] = [
+    ...offers.map((offer) => ({
+      id: offer.id,
+      city: offer.city,
+      location: offer.location
+    }))
+  ];
 
   return (
     <div className="page page--gray page--main">
@@ -88,7 +94,7 @@ export function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersNumber} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -111,7 +117,7 @@ export function MainPage({offersNumber, offers} : MainPageProps) : JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map offers={offers} activeOfferId={activeOfferId} />
+                <Map points={points} activePointId={activeOfferId} />
               </section>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import {Offer} from '../types/offer.ts';
 
-export const offers: Offer[] = [
+export const Offers: Offer[] = [
   {
     id: '97953057-4bb9-46d1-b183-04d69a89b9a4',
     title: 'Perfectly located Castro',
@@ -10,9 +10,9 @@ export const offers: Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 10
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 12
       }
     },
     location: {
@@ -32,9 +32,9 @@ export const offers: Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 10
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 12
       }
     },
     location: {
@@ -54,15 +54,15 @@ export const offers: Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 10
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 12
       }
     },
     location: {
       latitude: 52.3909553943508,
       longitude: 4.929309666406198,
-      zoom: 16
+      zoom: 11
     },
     isFavorite: false,
     isPremium: false,
@@ -76,15 +76,15 @@ export const offers: Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 10
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 12
       }
     },
     location: {
       latitude: 52.3809553943508,
       longitude: 4.939309666406198,
-      zoom: 16
+      zoom: 11
     },
     isFavorite: true,
     isPremium: false,

@@ -1,18 +1,18 @@
-import {Offer} from '../../types/offer.ts';
 import {useEffect, useRef} from 'react';
 import {useMap} from '../../hooks/useMap/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
+import {Point} from '../../types/offer.ts';
 
 type MapProps = {
-  offers: Offer[];
-  activeOfferId: string | null;
+  points: Point[];
+  activePointId: string | null;
 }
 
-export function Map({offers, activeOfferId} : MapProps) {
+export function Map({points, activePointId} : MapProps) {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, offers[0].city);
+  const map = useMap(mapRef, points[0].city);
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: URL_MARKER_DEFAULT,
@@ -34,24 +34,24 @@ export function Map({offers, activeOfferId} : MapProps) {
         }
       });
 
-      offers.forEach((offer) => {
-        const markerIcon = offer.id === activeOfferId ? currentCustomIcon : defaultCustomIcon;
+      points.forEach((point) => {
+        const markerIcon = point.id === activePointId ? currentCustomIcon : defaultCustomIcon;
 
         leaflet
           .marker({
-            lat: offer.location.latitude,
-            lng: offer.location.longitude,
+            lat: point.location.latitude,
+            lng: point.location.longitude,
           }, {
             icon: markerIcon,
           })
           .addTo(map);
       });
     }
-  }, [map, offers, activeOfferId]);
+  }, [map, points, activePointId]);
 
   return (
     <div
-      style={{height: '500px'}}
+      style={{height: '600px'}}
       ref={mapRef}
     >
     </div>
