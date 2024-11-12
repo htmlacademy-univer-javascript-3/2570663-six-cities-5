@@ -7,7 +7,7 @@ type SortingOptionsProps = {
 };
 
 export function SortingOptions({ onSortChange }: SortingOptionsProps): JSX.Element {
-  const [activeOption, setActiveOption] = useState<SortingOption>(SORTING_OPTIONS.Popular);
+  const [activeOption, setActiveOption] = useState<SortingOption>('Popular');
   const [isOptionsVisible, setIsOptionsVisible] = useState<boolean>(false);
 
   const handleOptionClick = (option: SortingOption) => {
@@ -30,7 +30,7 @@ export function SortingOptions({ onSortChange }: SortingOptionsProps): JSX.Eleme
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${isOptionsVisible ? 'places__options--opened' : ''}`}>
-        {Object.values(SORTING_OPTIONS).map((option) => (
+        {SORTING_OPTIONS.map((option) => (
           <li
             key={option}
             className={`places__option ${option === activeOption ? 'places__option--active' : ''}`}

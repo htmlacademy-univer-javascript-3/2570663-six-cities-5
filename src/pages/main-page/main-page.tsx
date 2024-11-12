@@ -3,7 +3,7 @@ import {Point} from '../../types/offer.ts';
 import {OffersList} from '../../components/offers-list/offers-list.tsx';
 import {Map} from '../../components/map/map.tsx';
 import {CitiesList} from '../../components/cities-list/cities-list.tsx';
-import {CITIES, SORTING_OPTIONS} from '../../const.ts';
+import {CITIES} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {setCity} from '../../store/action.ts';
 import {useState} from 'react';
@@ -20,7 +20,7 @@ function getPlacesText(count: number): string {
 
 export function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-  const [sortingOption, setSortingOption] = useState<SortingOption>(SORTING_OPTIONS.Popular);
+  const [sortingOption, setSortingOption] = useState<SortingOption>('Popular');
 
   const dispatch = useAppDispatch();
   const activeCity = useAppSelector((state) => state.city);

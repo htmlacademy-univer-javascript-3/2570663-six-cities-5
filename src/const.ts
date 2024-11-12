@@ -1,3 +1,5 @@
+import {SortingOption} from './types/sorting-option.ts';
+
 export const Data = {
   OffersNumber: 312
 };
@@ -18,9 +20,9 @@ export enum AuthorizationStatus {
 
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export enum SORTING_OPTIONS {
-  Popular = 'Popular',
-  Increasing = 'Price: low to high',
-  Decreasing = 'Price: high to low',
-  Rating = 'Top rated first',
-}
+export const SORTING_OPTIONS : SortingOption[] = [
+  'Popular',
+  'Price: low to high',
+  'Price: high to low',
+  'Top rated first'
+];
