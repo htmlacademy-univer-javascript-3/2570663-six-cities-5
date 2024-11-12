@@ -2,7 +2,6 @@ import {useEffect, useRef} from 'react';
 import {useMap} from '../../hooks/useMap/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
 import {Point} from '../../types/offer.ts';
 
 type MapProps = {
@@ -15,13 +14,13 @@ export function Map({points, activePointId} : MapProps) {
   const map = useMap(mapRef, points[0].city);
 
   const defaultCustomIcon = leaflet.icon({
-    iconUrl: URL_MARKER_DEFAULT,
+    iconUrl: '/img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
   const currentCustomIcon = leaflet.icon({
-    iconUrl: URL_MARKER_CURRENT,
+    iconUrl: '/img/pin-active.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
