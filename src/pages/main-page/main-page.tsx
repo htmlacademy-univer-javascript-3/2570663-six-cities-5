@@ -23,10 +23,10 @@ export function MainPage(): JSX.Element {
   const [sortingOption, setSortingOption] = useState<SortingOption>('Popular');
 
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state) => state.city);
-  const activeOffers = useAppSelector((state) => state.offers);
+  const activeCity = useAppSelector((state) => state.activeCity);
+  const offers = useAppSelector((state) => state.offers);
 
-  const filteredOffers = activeOffers.filter((offer) => offer.city.name === activeCity);
+  const filteredOffers = offers.filter((offer) => offer.city.name === activeCity);
 
   const sortedOffers = [...filteredOffers].sort((a, b) => {
     switch (sortingOption) {
