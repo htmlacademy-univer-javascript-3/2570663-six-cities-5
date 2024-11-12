@@ -7,6 +7,8 @@ import {CITIES} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {setCity} from '../../store/action.ts';
 import {useState} from 'react';
+import {SortingOption} from '../../types/sorting-option.ts';
+import {SortingOptions} from '../../components/sorting-options/sorting-options.tsx';
 
 function getPlacesText(count: number): string {
   if (count === 1) {
@@ -18,6 +20,7 @@ function getPlacesText(count: number): string {
 
 export function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+  const [sortingOption, setSortingOption] = useState<SortingOption>('Popular');
 
   const dispatch = useAppDispatch();
   const activeCity = useAppSelector((state) => state.city);
@@ -25,7 +28,20 @@ export function MainPage(): JSX.Element {
 
   const filteredOffers = activeOffers.filter((offer) => offer.city.name === activeCity);
 
-  const points: Point[] = filteredOffers.map((offer) => ({
+  const sortedOffers = [...filteredOffers].sort((a, b) => {
+    switch (sortingOption) {
+      case 'Price: low to high':
+        return a.price - b.price;
+      case 'Price: high to low':
+        return b.price - a.price;
+      case 'Top rated first':
+        return b.rating - a.rating;
+      default:
+        return 0;
+    }
+  });
+
+  const points: Point[] = sortedOffers.map((offer) => ({
     id: offer.id,
     city: offer.city,
     location: offer.location,
@@ -33,6 +49,10 @@ export function MainPage(): JSX.Element {
 
   const handleCityChange = (city: string) => {
     dispatch(setCity(city));
+  };
+
+  const handleSortChange = (option: SortingOption) => {
+    setSortingOption(option);
   };
 
   return (
@@ -77,18 +97,12 @@ export function MainPage(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{filteredOffers.length} {getPlacesText(filteredOffers.length)} to stay in {activeCity}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-              </form>
+              <b className="places__found">
+                {filteredOffers.length} {getPlacesText(filteredOffers.length)} to stay in {activeCity}
+              </b>
+              <SortingOptions onSortChange={handleSortChange} />
               <OffersList
-                offers={filteredOffers}
+                offers={sortedOffers}
                 setActiveOfferId={setActiveOfferId}
               />
             </section>
