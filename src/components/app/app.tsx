@@ -8,13 +8,14 @@ import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
 import {NotFoundPage} from '../../pages/404-not-found-page/not-found-page.tsx';
 import {AuthorizationStatus} from '../../const.ts';
 import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
-import {Offer} from '../../types/offer.ts';
+import {useAppDispatch} from '../../hooks';
+import {setOffers} from '../../store/action.ts';
+import {Offers} from '../../mocks/offers.ts';
 
-type AppScreenProps = {
-  offers: Offer[];
-}
+function App() : JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(setOffers(Offers));
 
-function App({offers} : AppScreenProps) : JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -22,9 +23,7 @@ function App({offers} : AppScreenProps) : JSX.Element {
           <Route
             path={AppRoute.Main}
             element={
-              <MainPage
-                offers={offers}
-              />
+              <MainPage />
             }
           />
           <Route
@@ -37,7 +36,7 @@ function App({offers} : AppScreenProps) : JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesPage offers={offers} />
+                <FavoritesPage />
               </PrivateRoute>
             }
           />

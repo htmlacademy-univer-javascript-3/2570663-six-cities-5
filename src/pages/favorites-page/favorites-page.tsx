@@ -1,12 +1,10 @@
 import {Helmet} from 'react-helmet-async';
-import {Offer} from '../../types/offer.ts';
 import {FavoritesList} from '../../components/favorites-list/favorites-list.tsx';
+import {useAppSelector} from '../../hooks';
 
-type FavoritesPageProps = {
-  offers: Offer[];
-}
+export function FavoritesPage() : JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
 
-export function FavoritesPage({offers} : FavoritesPageProps) : JSX.Element {
   return (
     <div className="page">
       <Helmet>
