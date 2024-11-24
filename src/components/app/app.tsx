@@ -8,13 +8,17 @@ import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
 import {NotFoundPage} from '../../pages/404-not-found-page/not-found-page.tsx';
 import {AuthorizationStatus} from '../../const.ts';
 import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
-import {useAppDispatch} from '../../hooks';
-import {setOffers} from '../../store/action.ts';
-import {Offers} from '../../mocks/offers.ts';
+import {useAppSelector} from '../../hooks';
+import {Spinner} from '../spinner/spinner.tsx';
 
-function App() : JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(setOffers(Offers));
+export function App() : JSX.Element {
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (isOffersDataLoading) {
+    return (
+      <Spinner />
+    );
+  }
 
   return (
     <HelmetProvider>
@@ -22,9 +26,7 @@ function App() : JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={
-              <MainPage />
-            }
+            element={<MainPage />}
           />
           <Route
             path={AppRoute.Login}
@@ -53,5 +55,3 @@ function App() : JSX.Element {
     </HelmetProvider>
   );
 }
-
-export default App;
