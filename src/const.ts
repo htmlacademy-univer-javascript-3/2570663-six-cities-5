@@ -1,15 +1,15 @@
 import {SortingOption} from './types/sorting-option.ts';
 
-export const Data = {
-  OffersNumber: 312
-};
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
   OfferWithId = '/offer/:id'
+}
+
+export enum APIRoute {
+  Offers = '/offers'
 }
 
 export enum AuthorizationStatus {

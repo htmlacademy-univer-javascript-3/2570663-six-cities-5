@@ -6,7 +6,7 @@ import {CitiesList} from '../../components/cities-list/cities-list.tsx';
 import {CITIES} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {setCity} from '../../store/action.ts';
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 import {SortingOption} from '../../types/sorting-option.ts';
 import {SortingOptions} from '../../components/sorting-options/sorting-options.tsx';
 
@@ -26,26 +26,30 @@ export function MainPage(): JSX.Element {
   const activeCity = useAppSelector((state) => state.activeCity);
   const offers = useAppSelector((state) => state.offers);
 
-  const filteredOffers = offers.filter((offer) => offer.city.name === activeCity);
+  const { filteredOffers, sortedOffers, points } = useMemo(() => {
+    const filtered = offers.filter((offer) => offer.city.name === activeCity);
 
-  const sortedOffers = [...filteredOffers].sort((a, b) => {
-    switch (sortingOption) {
-      case 'Price: low to high':
-        return a.price - b.price;
-      case 'Price: high to low':
-        return b.price - a.price;
-      case 'Top rated first':
-        return b.rating - a.rating;
-      default:
-        return 0;
-    }
-  });
+    const sorted = [...filtered].sort((a, b) => {
+      switch (sortingOption) {
+        case 'Price: low to high':
+          return a.price - b.price;
+        case 'Price: high to low':
+          return b.price - a.price;
+        case 'Top rated first':
+          return b.rating - a.rating;
+        default:
+          return 0;
+      }
+    });
 
-  const points: Point[] = sortedOffers.map((offer) => ({
-    id: offer.id,
-    city: offer.city,
-    location: offer.location,
-  }));
+    const mapPoints: Point[] = sorted.map((offer) => ({
+      id: offer.id,
+      city: offer.city,
+      location: offer.location,
+    }));
+
+    return { filteredOffers: filtered, sortedOffers: sorted, points: mapPoints };
+  }, [offers, activeCity, sortingOption]);
 
   const handleCityChange = (city: string) => {
     dispatch(setCity(city));

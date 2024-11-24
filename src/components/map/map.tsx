@@ -50,7 +50,7 @@ export function Map({points, activePointId} : MapProps) {
 
   return (
     <div
-      style={{height: '600px'}}
+      style={{height: '700px'}}
       ref={mapRef}
     >
     </div>
