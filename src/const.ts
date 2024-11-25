@@ -5,11 +5,14 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  OfferWithId = '/offer/:id'
+  OfferWithId = '/offer/:id',
 }
 
 export enum APIRoute {
-  Offers = '/offers'
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Favorite = '/favorite',
 }
 
 export enum AuthorizationStatus {
@@ -24,5 +27,5 @@ export const SORTING_OPTIONS : SortingOption[] = [
   'Popular',
   'Price: low to high',
   'Price: high to low',
-  'Top rated first'
+  'Top rated first',
 ];
