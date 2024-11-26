@@ -7,15 +7,14 @@ type FavoritesListProps = {
 
 export function FavoritesList({offers} : FavoritesListProps) {
   const groupedOffers = offers.reduce((acc, offer) => {
-    if (offer.isFavorite) {
-      const cityName = offer.city.name;
+    const cityName = offer.city.name;
 
-      if (!acc[cityName]) {
-        acc[cityName] = [];
-      }
-
-      acc[cityName].push(offer);
+    if (!acc[cityName]) {
+      acc[cityName] = [];
     }
+
+    acc[cityName].push(offer);
+
     return acc;
   }, {} as Record<string, Offer[]>);
 
