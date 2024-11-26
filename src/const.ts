@@ -6,6 +6,7 @@ export enum AppRoute {
   Favorites = '/favorites',
   Offer = '/offer',
   OfferWithId = '/offer/:id',
+  NotFound = '/not-found',
 }
 
 export enum APIRoute {
@@ -13,6 +14,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Favorite = '/favorite',
+  Comments = '/comments',
 }
 
 export enum AuthorizationStatus {

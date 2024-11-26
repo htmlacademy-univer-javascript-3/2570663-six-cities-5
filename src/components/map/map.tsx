@@ -7,9 +7,10 @@ import {Point} from '../../types/offer.ts';
 type MapProps = {
   points: Point[];
   activePointId: string | null;
+  height: number;
 }
 
-export function Map({points, activePointId} : MapProps) {
+export function Map({points, activePointId, height} : MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, points[0].city);
 
@@ -50,7 +51,7 @@ export function Map({points, activePointId} : MapProps) {
 
   return (
     <div
-      style={{height: '700px'}}
+      style={{height: `${height}px`}}
       ref={mapRef}
     >
     </div>

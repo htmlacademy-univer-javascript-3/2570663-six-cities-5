@@ -1,63 +1,59 @@
 import {Helmet} from 'react-helmet-async';
-// import {useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import {useEffect, useMemo} from 'react';
 import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
-import {Reviews} from '../../mocks/reviews.ts';
-import {NearbyOffers} from '../../mocks/nearby-offers.ts';
 import {Map} from '../../components/map/map';
 import {OffersList} from '../../components/offers-list/offers-list.tsx';
-import {FullOffer} from '../../mocks/detailed-offer.ts';
 import {Point} from '../../types/offer.ts';
-
+import {fetchDetailedOfferAction} from '../../store/api-actions.ts';
+import {State} from '../../types/state.ts';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {Spinner} from '../../components/spinner/spinner.tsx';
+import { Header } from '../../components/header/header.tsx';
 
 export function OfferPage(): JSX.Element {
-  // const { id } = useParams();
-  const offer = FullOffer;
-  const points: Point[] = [
-    ...NearbyOffers.map((nearbyOffer) => ({
-      id: nearbyOffer.id,
-      city: nearbyOffer.city,
-      location: nearbyOffer.location
-    })),
-    {
-      id: FullOffer.id,
-      city: FullOffer.city,
-      location: FullOffer.location
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
+  const offer = useAppSelector((state: State) => state.offer);
+  const nearbyOffers = useAppSelector((state: State) => state.nearbyOffers);
+  const comments = useAppSelector((state: State) => state.comments);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchDetailedOfferAction(id));
     }
-  ];
+  }, [dispatch, id]);
+
+  const points: Point[] = useMemo(() => {
+    if (!offer) {
+      return [];
+    }
+    return [
+      ...nearbyOffers.map((nearbyOffer) => ({
+        id: nearbyOffer.id,
+        city: nearbyOffer.city,
+        location: nearbyOffer.location
+      })),
+      {
+        id: offer.id,
+        city: offer.city,
+        location: offer.location
+      }
+    ];
+  }, [nearbyOffers, offer]);
+
+  if (!offer) {
+    return (
+      <Spinner />
+    );
+  }
 
   return (
     <div className="page">
       <Helmet>
         <title>{offer.title} - 6 cities</title>
       </Helmet>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -141,17 +137,17 @@ export function OfferPage(): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ReviewsList reviews={Reviews} />
+              <ReviewsList reviews={comments} offerId={offer.id} />
             </div>
           </div>
           <section className={'offer__map map'}>
-            <Map points={points} activePointId={FullOffer.id} />
+            <Map points={points} activePointId={offer.id} height={600} />
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={NearbyOffers} setActiveOfferId={() => {}} isNearby />
+            <OffersList offers={nearbyOffers} setActiveOfferId={() => {}} isNearby />
           </section>
         </div>
       </main>
