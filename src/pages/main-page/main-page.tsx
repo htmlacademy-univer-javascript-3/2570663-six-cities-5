@@ -87,7 +87,7 @@ export function MainPage(): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map points={points} activePointId={activeOfferId} />
+                <Map points={points} activePointId={activeOfferId} height={700} />
               </section>
             </div>
           </div>

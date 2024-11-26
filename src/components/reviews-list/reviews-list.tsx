@@ -1,12 +1,17 @@
 import {Review} from '../../types/review.ts';
 import {ReviewItem} from '../review-item/review-item.tsx';
 import {CommentForm} from '../comment-form/comment-form.tsx';
+import {State} from '../../types/state.ts';
+import {useAppSelector} from '../../hooks';
 
 type ReviewsListProps = {
   reviews: Review[];
+  offerId: string;
 }
 
-export function ReviewsList({reviews} : ReviewsListProps) {
+export function ReviewsList({reviews, offerId} : ReviewsListProps) {
+  const userData = useAppSelector((state: State) => state.userData);
+
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
@@ -18,7 +23,7 @@ export function ReviewsList({reviews} : ReviewsListProps) {
           />
         ))}
       </ul>
-      <CommentForm />
+      {userData && <CommentForm offerId={offerId} />}
     </section>
   );
 }

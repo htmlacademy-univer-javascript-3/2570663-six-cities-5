@@ -1,8 +1,17 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {requireAuthorization, setCity, setOffers, setDataLoadingStatus, setUserData, setFavoriteOffers} from './action';
-import {Offer} from '../types/offer.ts';
+import {
+  requireAuthorization,
+  setCity,
+  setOffers,
+  setDataLoadingStatus,
+  setUserData,
+  setFavoriteOffers,
+  setNearbyOffers, setComments, setDetailedOffer, addComment,
+} from './action';
+import {DetailedOffer, Offer} from '../types/offer.ts';
 import {AuthorizationStatus} from '../const.ts';
 import {UserData} from '../types/user.ts';
+import {Review} from '../types/review.ts';
 
 type InitialState = {
   activeCity: string;
@@ -11,6 +20,9 @@ type InitialState = {
   isDataLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
+  offer: DetailedOffer | null;
+  nearbyOffers: Offer[];
+  comments: Review[];
 }
 
 const initialState: InitialState = {
@@ -20,6 +32,9 @@ const initialState: InitialState = {
   isDataLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
+  offer: null,
+  nearbyOffers: [],
+  comments: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -41,5 +56,17 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserData, (state, action) => {
       state.userData = action.payload;
+    })
+    .addCase(setDetailedOffer, (state, action) => {
+      state.offer = action.payload;
+    })
+    .addCase(setNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(setComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(addComment, (state, action) => {
+      state.comments.push(action.payload);
     });
 });

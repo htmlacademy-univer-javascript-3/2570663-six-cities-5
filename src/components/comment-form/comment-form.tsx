@@ -1,4 +1,7 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
+import {useAppDispatch} from '../../hooks';
+import {postCommentAction} from '../../store/api-actions.ts';
+import {showCustomToast} from '../custom-toast/custom-toast.tsx';
 
 const getRatingTitle = (star: number) => {
   switch (star) {
@@ -15,42 +18,44 @@ const getRatingTitle = (star: number) => {
   }
 };
 
-export function CommentForm() {
+type CommentFormProps = {
+  offerId: string;
+}
+
+export function CommentForm({offerId}: CommentFormProps) {
   const [formData, setFormData] = useState({
     rating: '',
     review: ''
   });
 
-  const [error, setError] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value
     }));
-    setError('');
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const { rating, review } = formData;
+    const {rating, review} = formData;
 
     if (!rating) {
-      setError('Please select a rating.');
-      return;
-    }
-    if (review.length < 50) {
-      setError('The review must contain at least 50 characters.');
+      showCustomToast('Please select a rating.');
       return;
     }
 
-    // eslint-disable-next-line no-console
-    console.log('Отправка данных:', formData);
+    if (review.length < 50 || review.length > 300) {
+      showCustomToast('The review must contain from 50 to 300 characters.');
+      return;
+    }
 
-    setFormData({ rating: '', review: '' });
-    setIsSubmitted(true);
+    dispatch(postCommentAction({offerId, comment: review, rating: Number(rating)}))
+      .then(() => {
+        setFormData({rating: '', review: ''});
+      });
   };
 
   return (
@@ -60,7 +65,7 @@ export function CommentForm() {
         {[5, 4, 3, 2, 1].map((star) => (
           <React.Fragment key={star}>
             <input className="form__rating-input visually-hidden" name="rating" value={`${star}`} id={`${star}-stars`}
-              type="radio" onChange={handleChange}
+              type="radio" onChange={handleChange} checked={formData.rating === `${star}`}
             />
             <label htmlFor={`${star}-stars`} className="reviews__rating-label form__rating-label"
               title={getRatingTitle(star)}
@@ -78,15 +83,13 @@ export function CommentForm() {
         onChange={handleChange}
       >
       </textarea>
-      {error && <p className="error-message">{error}</p>}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay
-          with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span>&nbsp;
+          and describe your stay <b className="reviews__text-amount">from 50 to 300 characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit">Submit</button>
       </div>
-      {isSubmitted && <p className="success-message">Ваш отзыв был успешно отправлен! 💌</p>}
     </form>
   );
 }
