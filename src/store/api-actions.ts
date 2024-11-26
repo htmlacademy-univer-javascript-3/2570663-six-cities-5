@@ -36,7 +36,6 @@ export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
   'data/fetchFavoriteOffers',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Offer[]>(APIRoute.Favorite);
-    console.log(data);
     dispatch(setFavoriteOffers(data));
   },
 );
@@ -85,7 +84,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth))
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     dispatch(setUserData(null));
     dispatch(setFavoriteOffers([]));
   },
