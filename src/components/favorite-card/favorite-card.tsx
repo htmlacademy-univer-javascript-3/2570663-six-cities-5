@@ -1,13 +1,21 @@
 import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
-import {memo} from 'react';
+import {memo, useCallback} from 'react';
+import {changeFavoriteAction} from '../../store/api-actions.ts';
+import {useAppDispatch} from '../../hooks';
 
 type FavoriteCardProps = {
   offer: Offer;
 }
 
 function FavoriteCardComponent({offer}: FavoriteCardProps) {
+  const dispatch = useAppDispatch();
+
+  const handleFavoriteClick = useCallback(() => {
+    dispatch(changeFavoriteAction({ offerId: offer.id, status: 0 }));
+  }, [offer.isFavorite, offer.id, dispatch]);
+
   return (
     <article className={'favorites__card place-card'}>
       {offer.isPremium &&
@@ -28,6 +36,7 @@ function FavoriteCardComponent({offer}: FavoriteCardProps) {
           <button
             className={'place-card__bookmark-button button place-card__bookmark-button--active button'}
             type="button"
+            onClick={handleFavoriteClick}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
