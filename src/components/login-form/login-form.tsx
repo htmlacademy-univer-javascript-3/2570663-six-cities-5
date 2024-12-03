@@ -1,7 +1,7 @@
-import {FormEvent, useRef} from 'react';
-import {useAppDispatch} from '../../hooks';
-import {loginAction} from '../../store/api-actions.ts';
-import {showCustomToast} from '../custom-toast/custom-toast.tsx';
+import {FormEvent, useRef, useCallback, memo} from 'react';
+import { useAppDispatch } from '../../hooks';
+import { loginAction } from '../../store/api-actions.ts';
+import { showCustomToast } from '../custom-toast/custom-toast.tsx';
 
 const validatePassword = (password: string): boolean => {
   const hasLetter = /[a-zA-Z]/.test(password);
@@ -11,12 +11,12 @@ const validatePassword = (password: string): boolean => {
   return hasLetter && hasNumber && hasNoSpaces;
 };
 
-export function LoginForm() {
+function LoginFormComponent() {
   const loginFormRef = useRef<HTMLFormElement>(null);
 
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (!loginFormRef.current) {
@@ -38,7 +38,7 @@ export function LoginForm() {
         password
       }));
     }
-  };
+  }, [dispatch]);
 
   return (
     <section className="login">
@@ -62,3 +62,5 @@ export function LoginForm() {
     </section>
   );
 }
+
+export const LoginForm = memo(LoginFormComponent);

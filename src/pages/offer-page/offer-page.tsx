@@ -6,17 +6,18 @@ import {Map} from '../../components/map/map';
 import {OffersList} from '../../components/offers-list/offers-list.tsx';
 import {Point} from '../../types/offer.ts';
 import {fetchDetailedOfferAction} from '../../store/api-actions.ts';
-import {State} from '../../types/state.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Spinner} from '../../components/spinner/spinner.tsx';
 import { Header } from '../../components/header/header.tsx';
+import {getNearbyOffers, getOffer} from '../../store/offer-data/selectors.ts';
+import {getComments} from '../../store/comments-data/selectors.ts';
 
-export function OfferPage(): JSX.Element {
+export function OfferPage() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const offer = useAppSelector((state: State) => state.offer);
-  const nearbyOffers = useAppSelector((state: State) => state.nearbyOffers);
-  const comments = useAppSelector((state: State) => state.comments);
+  const offer = useAppSelector(getOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const comments = useAppSelector(getComments);
 
   useEffect(() => {
     if (id) {

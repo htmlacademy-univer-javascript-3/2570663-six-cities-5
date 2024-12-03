@@ -2,9 +2,10 @@ import {Helmet} from 'react-helmet-async';
 import {FavoritesList} from '../../components/favorites-list/favorites-list.tsx';
 import {useAppSelector} from '../../hooks';
 import {Header} from '../../components/header/header.tsx';
+import {getFavoriteOffers} from '../../store/user-data/selectors.ts';
 
-export function FavoritesPage() : JSX.Element {
-  const favoriteOffers = useAppSelector((state) => state.favoriteOffers);
+export function FavoritesPage() {
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   return (
     <div className="page">

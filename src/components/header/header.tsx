@@ -2,11 +2,13 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Link, useLocation} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import {logoutAction} from '../../store/api-actions.ts';
+import {memo} from 'react';
+import {getFavoriteOffers, getUserInfo} from '../../store/user-data/selectors.ts';
 
-export function Header() {
+function HeaderComponent() {
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.userData);
-  const favoriteOffers = useAppSelector((state) => state.favoriteOffers);
+  const userInfo = useAppSelector(getUserInfo);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
   const location = useLocation();
 
   const isLoginPage = location.pathname === AppRoute.Login as string;
@@ -24,12 +26,12 @@ export function Header() {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  {userData ?
+                  {userInfo ?
                     <Link to={AppRoute.Favorites} className="header__nav-link header__nav-link--profile">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
-                        <img className="user__avatar" src={userData.avatarUrl} alt="avatar" />
+                        <img className="user__avatar" src={userInfo.avatarUrl} alt="avatar" />
                       </div>
-                      <span className="header__user-name user__name">{userData.email}</span>
+                      <span className="header__user-name user__name">{userInfo.email}</span>
                       <span className="header__favorite-count">{favoriteOffers.length}</span>
                     </Link>
                     :
@@ -39,7 +41,7 @@ export function Header() {
                       <span className="header__login">Sign in</span>
                     </Link>}
                 </li>
-                {userData &&
+                {userInfo &&
                   <li className="header__nav-item">
                     <Link
                       className="header__nav-link"
@@ -60,3 +62,5 @@ export function Header() {
     </header>
   );
 }
+
+export const Header = memo(HeaderComponent);

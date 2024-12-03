@@ -1,5 +1,6 @@
-import {Offer} from '../../types/offer';
-import {Card} from '../card/card';
+import { memo } from 'react';
+import { Offer } from '../../types/offer';
+import { Card } from '../card/card';
 
 type OffersListProps = {
   offers: Offer[];
@@ -7,7 +8,7 @@ type OffersListProps = {
   isNearby?: boolean;
 }
 
-export function OffersList({offers, setActiveOfferId, isNearby = false}: OffersListProps) {
+function OffersListComponent({ offers, setActiveOfferId, isNearby = false }: OffersListProps) {
   const handleMouseEnter = (id: string) => {
     setActiveOfferId(id);
   };
@@ -31,3 +32,5 @@ export function OffersList({offers, setActiveOfferId, isNearby = false}: OffersL
     </div>
   );
 }
+
+export const OffersList = memo(OffersListComponent);

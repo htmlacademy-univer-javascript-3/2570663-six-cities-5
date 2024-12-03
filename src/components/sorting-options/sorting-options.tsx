@@ -6,7 +6,7 @@ type SortingOptionsProps = {
   onSortChange: (option: SortingOption) => void;
 };
 
-export function SortingOptions({ onSortChange }: SortingOptionsProps): JSX.Element {
+export function SortingOptions({ onSortChange }: SortingOptionsProps) {
   const [activeOption, setActiveOption] = useState<SortingOption>('Popular');
   const [isOptionsVisible, setIsOptionsVisible] = useState<boolean>(false);
 

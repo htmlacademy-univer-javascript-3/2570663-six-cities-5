@@ -1,12 +1,14 @@
 import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
+import {memo} from 'react';
+
 
 type FavoriteCardProps = {
   offer: Offer;
 }
 
-export function FavoriteCard({offer}: FavoriteCardProps): JSX.Element {
+function FavoriteCardComponent({offer}: FavoriteCardProps) {
   return (
     <article className={'favorites__card place-card'}>
       {offer.isPremium &&
@@ -48,3 +50,5 @@ export function FavoriteCard({offer}: FavoriteCardProps): JSX.Element {
     </article>
   );
 }
+
+export const FavoriteCard = memo(FavoriteCardComponent);

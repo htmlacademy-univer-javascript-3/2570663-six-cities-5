@@ -5,16 +5,17 @@ import {AppRoute} from '../../const.ts';
 import {LoginPage} from '../../pages/login-page/login-page.tsx';
 import {PrivateRoute} from '../private-route/private-route.tsx';
 import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
-import {NotFoundPage} from '../../pages/404-not-found-page/not-found-page.tsx';
+import {NotFoundPage} from '../../pages/not-found-page/not-found-page.tsx';
 import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
 import {useAppSelector} from '../../hooks';
 import {Spinner} from '../spinner/spinner.tsx';
 import {HistoryRouter} from '../history-route/history-route.tsx';
 import {browserHistory} from '../../browser-history.ts';
 import {PrivateLoginRoute} from '../private-login-route/private-login-route.tsx';
+import {getDataLoadingStatus} from '../../store/offers-data/selectors.ts';
 
-export function App(): JSX.Element {
-  const isOffersDataLoading = useAppSelector((state) => state.isDataLoading);
+export function App() {
+  const isOffersDataLoading = useAppSelector(getDataLoadingStatus);
 
   if (isOffersDataLoading) {
     return (

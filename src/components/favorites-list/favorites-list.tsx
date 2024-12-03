@@ -1,3 +1,4 @@
+import {useMemo} from 'react';
 import {Offer} from '../../types/offer.ts';
 import {FavoriteCard} from '../favorite-card/favorite-card.tsx';
 
@@ -5,8 +6,8 @@ type FavoritesListProps = {
   offers: Offer[];
 }
 
-export function FavoritesList({offers} : FavoritesListProps) {
-  const groupedOffers = offers.reduce((acc, offer) => {
+export function FavoritesList({offers}: FavoritesListProps) {
+  const groupedOffers = useMemo(() => offers.reduce((acc, offer) => {
     const cityName = offer.city.name;
 
     if (!acc[cityName]) {
@@ -16,7 +17,7 @@ export function FavoritesList({offers} : FavoritesListProps) {
     acc[cityName].push(offer);
 
     return acc;
-  }, {} as Record<string, Offer[]>);
+  }, {} as Record<string, Offer[]>), [offers]);
 
   return (
     <ul className="favorites__list">

@@ -1,10 +1,12 @@
+import {memo} from 'react';
+
 type CitiesListProps = {
   cities: string[];
   activeCity: string;
   onCityChange: (city: string) => void;
 };
 
-export function CitiesList({ cities, activeCity, onCityChange }: CitiesListProps): JSX.Element {
+function CitiesListComponent({ cities, activeCity, onCityChange }: CitiesListProps) {
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
@@ -26,3 +28,5 @@ export function CitiesList({ cities, activeCity, onCityChange }: CitiesListProps
     </section>
   );
 }
+
+export const CitiesList = memo(CitiesListComponent);
