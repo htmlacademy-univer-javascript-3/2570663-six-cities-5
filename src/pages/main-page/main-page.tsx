@@ -12,6 +12,7 @@ import {Header} from '../../components/header/header.tsx';
 import {getOffers} from '../../store/offers-data/selectors.ts';
 import {setCity} from '../../store/slices/city-slice.ts';
 import {getActiveCity} from '../../store/city-data/selectors.ts';
+import {EmptyOffersContainer} from '../../components/empty-offers-list/empty-offers-container.tsx';
 
 function getPlacesText(count: number): string {
   if (count === 1) {
@@ -69,30 +70,31 @@ export function MainPage() {
       </Helmet>
       <Header />
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${offers.length === 0 && 'page__main--index-empty'}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <CitiesList cities={CITIES} activeCity={activeCity} onCityChange={handleCityChange} />
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">
-                {filteredOffers.length} {getPlacesText(filteredOffers.length)} to stay in {activeCity}
-              </b>
-              <SortingOptions onSortChange={handleSortChange} />
-              <OffersList
-                offers={sortedOffers}
-                setActiveOfferId={setActiveOfferId}
-              />
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map points={points} activePointId={activeOfferId} height={700} />
+          {offers.length === 0 ? <EmptyOffersContainer /> :
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">
+                  {filteredOffers.length} {getPlacesText(filteredOffers.length)} to stay in {activeCity}
+                </b>
+                <SortingOptions onSortChange={handleSortChange} />
+                <OffersList
+                  offers={sortedOffers}
+                  setActiveOfferId={setActiveOfferId}
+                />
               </section>
-            </div>
-          </div>
+              <div className="cities__right-section">
+                <section className="cities__map map">
+                  <Map points={points} activePointId={activeOfferId} height={700} />
+                </section>
+              </div>
+            </div>}
         </div>
       </main>
     </div>

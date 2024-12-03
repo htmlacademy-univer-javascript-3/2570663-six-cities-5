@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import {memo} from 'react';
 
-
 type FavoriteCardProps = {
   offer: Offer;
 }
