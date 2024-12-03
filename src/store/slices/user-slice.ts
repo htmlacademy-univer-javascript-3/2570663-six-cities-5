@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {AuthorizationStatus, NameSpace} from '../../const.ts';
+import { AuthorizationStatus, NameSpace } from '../../const.ts';
 import { Offer } from '../../types/offer.ts';
-import {UserData} from '../../types/state.ts';
-import {UserInfo} from '../../types/user.ts';
+import { UserData } from '../../types/state.ts';
+import { UserInfo } from '../../types/user.ts';
 
 const initialState: UserData = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -23,8 +23,20 @@ const userSlice = createSlice({
     setFavoriteOffers: (state, action: PayloadAction<Offer[]>) => {
       state.favoriteOffers = action.payload;
     },
+    addFavoriteOffer: (state, action: PayloadAction<Offer>) => {
+      state.favoriteOffers.push(action.payload);
+    },
+    removeFavoriteOffer: (state, action: PayloadAction<string>) => {
+      state.favoriteOffers = state.favoriteOffers.filter((offer) => offer.id !== action.payload);
+    },
   },
 });
 
-export const { requireAuthorization, setUserData, setFavoriteOffers } = userSlice.actions;
+export const {
+  requireAuthorization,
+  setUserData,
+  setFavoriteOffers,
+  addFavoriteOffer,
+  removeFavoriteOffer,
+} = userSlice.actions;
 export const userReducer = userSlice.reducer;
