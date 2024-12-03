@@ -1,16 +1,17 @@
 import {Review} from '../../types/review.ts';
 import {ReviewItem} from '../review-item/review-item.tsx';
 import {CommentForm} from '../comment-form/comment-form.tsx';
-import {State} from '../../types/state.ts';
 import {useAppSelector} from '../../hooks';
+import {memo} from 'react';
+import {getUserInfo} from '../../store/user-data/selectors.ts';
 
 type ReviewsListProps = {
   reviews: Review[];
   offerId: string;
 }
 
-export function ReviewsList({reviews, offerId} : ReviewsListProps) {
-  const userData = useAppSelector((state: State) => state.userData);
+function ReviewsListComponent({reviews, offerId} : ReviewsListProps) {
+  const userInfo = useAppSelector(getUserInfo);
 
   return (
     <section className="offer__reviews reviews">
@@ -23,7 +24,9 @@ export function ReviewsList({reviews, offerId} : ReviewsListProps) {
           />
         ))}
       </ul>
-      {userData && <CommentForm offerId={offerId} />}
+      {userInfo && <CommentForm offerId={offerId} />}
     </section>
   );
 }
+
+export const ReviewsList = memo(ReviewsListComponent);

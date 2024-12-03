@@ -1,6 +1,7 @@
 import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
+import {memo} from 'react';
 
 type CardProps = {
   offer: Offer;
@@ -9,7 +10,7 @@ type CardProps = {
   isNearby?: boolean;
 }
 
-export function Card({offer, onMouseEnter, onMouseLeave, isNearby = false}: CardProps): JSX.Element {
+function CardComponent({offer, onMouseEnter, onMouseLeave, isNearby = false}: CardProps) {
   const stylePrefix = isNearby ? 'near-places' : 'cities';
   return (
     <Link to={`${AppRoute.Offer}/${offer.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -56,3 +57,5 @@ export function Card({offer, onMouseEnter, onMouseLeave, isNearby = false}: Card
     </Link>
   );
 }
+
+export const Card = memo(CardComponent);

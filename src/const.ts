@@ -31,3 +31,12 @@ export const SORTING_OPTIONS : SortingOption[] = [
   'Price: high to low',
   'Top rated first',
 ];
+
+export enum NameSpace {
+  City = 'CITY',
+  Comments = 'COMMENTS',
+  DataLoading = 'DATA_LOADING',
+  Offer = 'Offer',
+  Offers = 'Offers',
+  User = 'User'
+}

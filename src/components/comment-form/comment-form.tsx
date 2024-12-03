@@ -1,7 +1,7 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
-import {useAppDispatch} from '../../hooks';
-import {postCommentAction} from '../../store/api-actions.ts';
-import {showCustomToast} from '../custom-toast/custom-toast.tsx';
+import React, {ChangeEvent, FormEvent, memo, useCallback, useState} from 'react';
+import { useAppDispatch } from '../../hooks';
+import { postCommentAction } from '../../store/api-actions.ts';
+import { showCustomToast } from '../custom-toast/custom-toast.tsx';
 
 const getRatingTitle = (star: number) => {
   switch (star) {
@@ -22,41 +22,46 @@ type CommentFormProps = {
   offerId: string;
 }
 
-export function CommentForm({offerId}: CommentFormProps) {
+function CommentFormComponent({ offerId }: CommentFormProps) {
   const [formData, setFormData] = useState({
     rating: '',
     review: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useAppDispatch();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {name, value} = e.target;
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value
     }));
-  };
+  }, []);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmitAsync = useCallback(async (e: FormEvent) => {
     e.preventDefault();
-    const {rating, review} = formData;
+    const { rating, review } = formData;
 
-    if (!rating) {
-      showCustomToast('Please select a rating.');
-      return;
+    setIsSubmitting(true);
+
+    try {
+      await dispatch(postCommentAction({ offerId, comment: review, rating: Number(rating) }));
+      setFormData({ rating: '', review: '' });
+    } catch (error) {
+      showCustomToast('Failed to submit the review. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
+  }, [dispatch, formData, offerId]);
 
-    if (review.length < 50 || review.length > 300) {
-      showCustomToast('The review must contain from 50 to 300 characters.');
-      return;
-    }
+  const handleSubmit = useCallback((e: FormEvent) => {
+    handleSubmitAsync(e).catch(() => {
+      showCustomToast('Failed to submit the review. Please try again.');
+    });
+  }, [handleSubmitAsync]);
 
-    dispatch(postCommentAction({offerId, comment: review, rating: Number(rating)}))
-      .then(() => {
-        setFormData({rating: '', review: ''});
-      });
-  };
+  const isSubmitDisabled = !formData.rating || formData.review.length < 50 || formData.review.length > 300 || isSubmitting;
 
   return (
     <form className="reviews__form form" onSubmit={handleSubmit}>
@@ -66,6 +71,7 @@ export function CommentForm({offerId}: CommentFormProps) {
           <React.Fragment key={star}>
             <input className="form__rating-input visually-hidden" name="rating" value={`${star}`} id={`${star}-stars`}
               type="radio" onChange={handleChange} checked={formData.rating === `${star}`}
+              disabled={isSubmitting}
             />
             <label htmlFor={`${star}-stars`} className="reviews__rating-label form__rating-label"
               title={getRatingTitle(star)}
@@ -81,6 +87,7 @@ export function CommentForm({offerId}: CommentFormProps) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.review}
         onChange={handleChange}
+        disabled={isSubmitting}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -88,8 +95,12 @@ export function CommentForm({offerId}: CommentFormProps) {
           To submit review please make sure to set <span className="reviews__star">rating</span>&nbsp;
           and describe your stay <b className="reviews__text-amount">from 50 to 300 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit">Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitDisabled}>
+          Submit
+        </button>
       </div>
     </form>
   );
 }
+
+export const CommentForm = memo(CommentFormComponent);

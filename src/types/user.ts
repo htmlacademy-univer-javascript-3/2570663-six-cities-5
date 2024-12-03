@@ -4,7 +4,7 @@ export type User = {
   isPro: boolean;
 }
 
-export type UserData = {
+export type UserInfo = {
   name: string;
   avatarUrl: string;
   isPro: boolean;

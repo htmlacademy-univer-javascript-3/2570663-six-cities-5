@@ -1,8 +1,8 @@
-import {useEffect, useRef} from 'react';
-import {useMap} from '../../hooks/useMap/useMap';
+import { useEffect, useRef, memo } from 'react';
+import { useMap } from '../../hooks/useMap/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {Point} from '../../types/offer.ts';
+import { Point } from '../../types/offer.ts';
 
 type MapProps = {
   points: Point[];
@@ -10,21 +10,21 @@ type MapProps = {
   height: number;
 }
 
-export function Map({points, activePointId, height} : MapProps) {
+const defaultCustomIcon = leaflet.icon({
+  iconUrl: '/img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const currentCustomIcon = leaflet.icon({
+  iconUrl: '/img/pin-active.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+function MapComponent ({ points, activePointId, height }: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, points[0].city);
-
-  const defaultCustomIcon = leaflet.icon({
-    iconUrl: '/img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const currentCustomIcon = leaflet.icon({
-    iconUrl: '/img/pin-active.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
 
   useEffect(() => {
     if (map) {
@@ -51,9 +51,11 @@ export function Map({points, activePointId, height} : MapProps) {
 
   return (
     <div
-      style={{height: `${height}px`}}
+      style={{ height: `${height}px` }}
       ref={mapRef}
     >
     </div>
   );
 }
+
+export const Map = memo(MapComponent);

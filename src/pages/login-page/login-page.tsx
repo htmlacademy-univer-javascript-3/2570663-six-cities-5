@@ -1,8 +1,9 @@
 import {Helmet} from 'react-helmet-async';
 import {LoginForm} from '../../components/login-form/login-form.tsx';
 import {Header} from '../../components/header/header.tsx';
+import {memo} from 'react';
 
-export function LoginPage() : JSX.Element {
+function LoginPageComponent() {
   return (
     <div className="page page--gray page--login">
       <Helmet>
@@ -25,3 +26,5 @@ export function LoginPage() : JSX.Element {
     </div>
   );
 }
+
+export const LoginPage = memo(LoginPageComponent);

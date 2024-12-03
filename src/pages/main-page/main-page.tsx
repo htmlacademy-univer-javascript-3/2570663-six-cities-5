@@ -5,11 +5,13 @@ import {Map} from '../../components/map/map.tsx';
 import {CitiesList} from '../../components/cities-list/cities-list.tsx';
 import {CITIES} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {setCity} from '../../store/action.ts';
-import {useMemo, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {SortingOption} from '../../types/sorting-option.ts';
 import {SortingOptions} from '../../components/sorting-options/sorting-options.tsx';
 import {Header} from '../../components/header/header.tsx';
+import {getOffers} from '../../store/offers-data/selectors.ts';
+import {setCity} from '../../store/slices/city-slice.ts';
+import {getActiveCity} from '../../store/city-data/selectors.ts';
 
 function getPlacesText(count: number): string {
   if (count === 1) {
@@ -19,13 +21,13 @@ function getPlacesText(count: number): string {
   }
 }
 
-export function MainPage(): JSX.Element {
+export function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const [sortingOption, setSortingOption] = useState<SortingOption>('Popular');
 
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state) => state.activeCity);
-  const offers = useAppSelector((state) => state.offers);
+  const activeCity = useAppSelector(getActiveCity);
+  const offers = useAppSelector(getOffers);
 
   const { filteredOffers, sortedOffers, points } = useMemo(() => {
     const filtered = offers.filter((offer) => offer.city.name === activeCity);
@@ -52,13 +54,13 @@ export function MainPage(): JSX.Element {
     return { filteredOffers: filtered, sortedOffers: sorted, points: mapPoints };
   }, [offers, activeCity, sortingOption]);
 
-  const handleCityChange = (city: string) => {
+  const handleCityChange = useCallback((city: string) => {
     dispatch(setCity(city));
-  };
+  }, [dispatch]);
 
-  const handleSortChange = (option: SortingOption) => {
+  const handleSortChange = useCallback((option: SortingOption) => {
     setSortingOption(option);
-  };
+  }, []);
 
   return (
     <div className="page page--gray page--main">
