@@ -1,19 +1,21 @@
-import { AxiosInstance } from 'axios';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppDispatch, State } from '../types/state.ts';
-import { DetailedOffer, Offer } from '../types/offer.ts';
-import { APIRoute, AppRoute, AuthorizationStatus } from '../const.ts';
-import { redirectToRoute } from './action.ts';
-import { dropToken, saveToken } from '../services/token.ts';
-import { AuthData, UserInfo } from '../types/user.ts';
-import { Review } from '../types/review.ts';
+import {AxiosInstance} from 'axios';
+import {createAsyncThunk} from '@reduxjs/toolkit';
+import {AppDispatch, State} from '../types/state.ts';
+import {DetailedOffer, Offer} from '../types/offer.ts';
+import {APIRoute, AppRoute, AuthorizationStatus} from '../const.ts';
+import {redirectToRoute} from './action.ts';
+import {dropToken, saveToken} from '../services/token.ts';
+import {AuthData, UserInfo} from '../types/user.ts';
+import {Review} from '../types/review.ts';
 import {
+  addFavoriteOffer,
+  removeFavoriteOffer,
   requireAuthorization,
+  setFavoriteOffers,
   setUserData,
-  setFavoriteOffers, addFavoriteOffer, removeFavoriteOffer,
 } from './slices/user-slice.ts';
-import { addComment, setComments } from './slices/comments-slice.ts';
-import { setDetailedOffer, setNearbyOffers } from './slices/offer-slice.ts';
+import {addComment, setComments} from './slices/comments-slice.ts';
+import {setDetailedOffer, setNearbyOffers} from './slices/offer-slice.ts';
 
 export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
   dispatch: AppDispatch;
@@ -87,6 +89,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dispatch(setUserData(null));
     dispatch(setFavoriteOffers([]));
     dispatch(fetchOffersAction());
+    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 

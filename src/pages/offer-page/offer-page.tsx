@@ -5,19 +5,23 @@ import {ReviewsList} from '../../components/reviews-list/reviews-list.tsx';
 import {Map} from '../../components/map/map';
 import {OffersList} from '../../components/offers-list/offers-list.tsx';
 import {Point} from '../../types/offer.ts';
-import {fetchDetailedOfferAction} from '../../store/api-actions.ts';
+import {changeFavoriteAction, fetchDetailedOfferAction} from '../../store/api-actions.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Spinner} from '../../components/spinner/spinner.tsx';
-import { Header } from '../../components/header/header.tsx';
+import {Header} from '../../components/header/header.tsx';
 import {getNearbyOffers, getOffer} from '../../store/offer-data/selectors.ts';
 import {getComments} from '../../store/comments-data/selectors.ts';
+import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import {redirectToRoute} from '../../store/action.ts';
+import {getAuthorizationStatus} from '../../store/user-data/selectors.ts';
 
 export function OfferPage() {
-  const { id } = useParams<{ id: string }>();
+  const {id} = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const offer = useAppSelector(getOffer);
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const comments = useAppSelector(getComments);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     if (id) {
@@ -45,22 +49,32 @@ export function OfferPage() {
 
   if (!offer) {
     return (
-      <Spinner />
+      <Spinner/>
     );
   }
+
+  const handleFavoriteClick = async () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+      return;
+    }
+
+    await dispatch(changeFavoriteAction({offerId: offer.id, status: offer.isFavorite ? 0 : 1}));
+    dispatch(fetchDetailedOfferAction(offer.id));
+  };
 
   return (
     <div className="page">
       <Helmet>
         <title>{offer.title} - 6 cities</title>
       </Helmet>
-      <Header />
+      <Header/>
 
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer.images.map((image) => (
+              {offer.images.slice(0, 6).map((image) => (
                 <div className="offer__image-wrapper" key={image}>
                   <img className="offer__image" src={image} alt="Photo studio"/>
                 </div>
@@ -78,7 +92,11 @@ export function OfferPage() {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  className={`offer__bookmark-button ${offer.isFavorite && 'offer__bookmark-button--active'} button`}
+                  type="button"
+                  onClick={handleFavoriteClick}
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -87,7 +105,7 @@ export function OfferPage() {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${offer.rating * 20}%`}}></span>
+                  <span style={{width: `${Math.round(offer.rating) * 20}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -120,8 +138,12 @@ export function OfferPage() {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className={`offer__avatar-wrapper ${offer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
-                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
+                  <div
+                    className={`offer__avatar-wrapper ${offer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}
+                  >
+                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74"
+                      alt="Host avatar"
+                    />
                   </div>
                   <span className="offer__user-name">
                     {offer.host.name}
@@ -138,17 +160,19 @@ export function OfferPage() {
                   </p>
                 </div>
               </div>
-              <ReviewsList reviews={comments} offerId={offer.id} />
+              <ReviewsList reviews={comments} offerId={offer.id}/>
             </div>
           </div>
           <section className={'offer__map map'}>
-            <Map points={points} activePointId={offer.id} height={600} />
+            <Map points={points} activePointId={offer.id} height={600}/>
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={nearbyOffers} setActiveOfferId={() => {}} isNearby />
+            <OffersList offers={nearbyOffers} setActiveOfferId={() => {
+            }} isNearby
+            />
           </section>
         </div>
       </main>
