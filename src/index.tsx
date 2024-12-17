@@ -5,6 +5,8 @@ import {Provider} from 'react-redux';
 import {store} from './store';
 import {checkAuthAction, fetchOffersAction} from './store/api-actions.ts';
 import {CustomToastContainer} from './components/custom-toast/custom-toast.tsx';
+import {HistoryRouter} from './components/history-route/history-route.tsx';
+import {browserHistory} from './browser-history.ts';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersAction());
@@ -16,8 +18,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <CustomToastContainer />
-      <App />
+      <HistoryRouter history={browserHistory}>
+        <CustomToastContainer />
+        <App />
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>
 );

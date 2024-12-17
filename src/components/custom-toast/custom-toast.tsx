@@ -2,7 +2,7 @@ import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CustomToast: React.FC<{ message: string }> = ({ message }) => (
+export const CustomToast: React.FC<{ message: string }> = ({ message }) => (
   <div style={{ fontSize: '14px', padding: '8px' }}>
     {message}
   </div>

@@ -51,7 +51,7 @@ function HeaderComponent() {
                         dispatch(logoutAction());
                       }}
                     >
-                      <span className="header__signout">Sign out</span>
+                      <span className="header__signout">Log out</span>
                     </Link>
                   </li>}
               </ul>

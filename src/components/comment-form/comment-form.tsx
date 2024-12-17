@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FormEvent, memo, useCallback, useState} from 'react';
-import { useAppDispatch } from '../../hooks';
-import { postCommentAction } from '../../store/api-actions.ts';
-import { showCustomToast } from '../custom-toast/custom-toast.tsx';
+import {useAppDispatch} from '../../hooks';
+import {postCommentAction} from '../../store/api-actions.ts';
+import {showCustomToast} from '../custom-toast/custom-toast.tsx';
 
 const getRatingTitle = (star: number) => {
   switch (star) {
@@ -22,7 +22,7 @@ type CommentFormProps = {
   offerId: string;
 }
 
-function CommentFormComponent({ offerId }: CommentFormProps) {
+function CommentFormComponent({offerId}: CommentFormProps) {
   const [formData, setFormData] = useState({
     rating: '',
     review: ''
@@ -32,7 +32,7 @@ function CommentFormComponent({ offerId }: CommentFormProps) {
   const dispatch = useAppDispatch();
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value
@@ -41,13 +41,13 @@ function CommentFormComponent({ offerId }: CommentFormProps) {
 
   const handleSubmitAsync = useCallback(async (e: FormEvent) => {
     e.preventDefault();
-    const { rating, review } = formData;
+    const {rating, review} = formData;
 
     setIsSubmitting(true);
 
     try {
-      await dispatch(postCommentAction({ offerId, comment: review, rating: Number(rating) }));
-      setFormData({ rating: '', review: '' });
+      await dispatch(postCommentAction({offerId, comment: review, rating: Number(rating)}));
+      setFormData({rating: '', review: ''});
     } catch (error) {
       showCustomToast('Failed to submit the review. Please try again.');
     } finally {
@@ -96,7 +96,7 @@ function CommentFormComponent({ offerId }: CommentFormProps) {
           and describe your stay <b className="reviews__text-amount">from 50 to 300 characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitDisabled}>
-          Submit
+          {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
       </div>
     </form>
