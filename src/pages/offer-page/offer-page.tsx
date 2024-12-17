@@ -163,7 +163,7 @@ export function OfferPage() {
               <ReviewsList reviews={comments} offerId={offer.id}/>
             </div>
           </div>
-          <section className={'offer__map map'}>
+          <section className={'offer__map map'} data-testid={'map'}>
             <Map points={points} activePointId={offer.id} height={600}/>
           </section>
         </section>

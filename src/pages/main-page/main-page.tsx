@@ -92,7 +92,7 @@ export function MainPage() {
                 />
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map">
+                <section className="cities__map map" data-testid={'map'}>
                   <Map points={points} activePointId={activeOfferId} height={700} />
                 </section>
               </div>
