@@ -9,8 +9,6 @@ import {NotFoundPage} from '../../pages/not-found-page/not-found-page.tsx';
 import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
 import {useAppSelector} from '../../hooks';
 import {Spinner} from '../spinner/spinner.tsx';
-import {HistoryRouter} from '../history-route/history-route.tsx';
-import {browserHistory} from '../../browser-history.ts';
 import {PrivateLoginRoute} from '../private-login-route/private-login-route.tsx';
 import {getDataLoadingStatus} from '../../store/offers-data/selectors.ts';
 
@@ -25,38 +23,36 @@ export function App() {
 
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
-        <Routes>
-          <Route
-            path={AppRoute.Main}
-            element={<MainPage/>}
-          />
-          <Route
-            path={AppRoute.Login}
-            element={
-              <PrivateLoginRoute>
-                <LoginPage/>
-              </PrivateLoginRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute>
-                <FavoritesPage/>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={AppRoute.OfferWithId}
-            element={<OfferPage/>}
-          />
-          <Route
-            path="*"
-            element={<NotFoundPage/>}
-          />
-        </Routes>
-      </HistoryRouter>
+      <Routes>
+        <Route
+          path={AppRoute.Main}
+          element={<MainPage/>}
+        />
+        <Route
+          path={AppRoute.Login}
+          element={
+            <PrivateLoginRoute>
+              <LoginPage/>
+            </PrivateLoginRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute>
+              <FavoritesPage/>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.OfferWithId}
+          element={<OfferPage/>}
+        />
+        <Route
+          path="*"
+          element={<NotFoundPage/>}
+        />
+      </Routes>
     </HelmetProvider>
   );
 }

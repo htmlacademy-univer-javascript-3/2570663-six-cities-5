@@ -12,7 +12,7 @@ import {Header} from '../../components/header/header.tsx';
 import {getOffers} from '../../store/offers-data/selectors.ts';
 import {setCity} from '../../store/slices/city-slice.ts';
 import {getActiveCity} from '../../store/city-data/selectors.ts';
-import {EmptyOffersContainer} from '../../components/empty-offers-list/empty-offers-container.tsx';
+import {EmptyOffersContainer} from '../../components/empty-offers-container/empty-offers-container.tsx';
 
 function getPlacesText(count: number): string {
   if (count === 1) {
@@ -76,7 +76,9 @@ export function MainPage() {
           <CitiesList cities={CITIES} activeCity={activeCity} onCityChange={handleCityChange} />
         </div>
         <div className="cities">
-          {offers.length === 0 ? <EmptyOffersContainer /> :
+          {offers.length === 0 ?
+            <EmptyOffersContainer />
+            :
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>

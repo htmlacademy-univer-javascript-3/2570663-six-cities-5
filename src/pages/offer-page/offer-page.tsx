@@ -95,7 +95,7 @@ export function OfferPage() {
                 <button
                   className={`offer__bookmark-button ${offer.isFavorite && 'offer__bookmark-button--active'} button`}
                   type="button"
-                  onClick={handleFavoriteClick}
+                  onClick={() => handleFavoriteClick}
                 >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
