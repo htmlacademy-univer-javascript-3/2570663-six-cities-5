@@ -1,7 +1,7 @@
 import {FormEvent, useRef, useCallback, memo} from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions.ts';
-import { showCustomToast } from '../custom-toast/custom-toast.tsx';
+import {showCustomToast} from '../../utils/show-custom-toast.tsx';
 
 const validatePassword = (password: string): boolean => {
   const hasLetter = /[a-zA-Z]/.test(password);

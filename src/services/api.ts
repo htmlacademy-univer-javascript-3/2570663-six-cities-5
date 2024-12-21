@@ -1,7 +1,7 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
 import {getToken} from './token.ts';
 import {StatusCodes} from 'http-status-codes';
-import {showCustomToast} from '../components/custom-toast/custom-toast.tsx';
+import {showCustomToast} from '../utils/show-custom-toast.tsx';
 
 type DetailMessageType = {
   type: string;

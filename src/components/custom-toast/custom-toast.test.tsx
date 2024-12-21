@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { toast } from 'react-toastify';
-import {showCustomToast, CustomToastContainer, CustomToast} from './custom-toast';
+import {CustomToastContainer, CustomToast} from './custom-toast';
+import {showCustomToast} from '../../utils/show-custom-toast.tsx';
 
 vi.mock('react-toastify', () => ({
   toast: vi.fn(),

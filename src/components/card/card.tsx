@@ -1,33 +1,43 @@
 import {Offer} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
-import {memo, useCallback} from 'react';
+import {useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeFavoriteAction} from '../../store/api-actions.ts';
+import {changeFavoriteAction, fetchNearbyOffersAction} from '../../store/api-actions.ts';
 import {getAuthorizationStatus} from '../../store/user-data/selectors.ts';
 import {redirectToRoute} from '../../store/action.ts';
+import {showCustomToast} from '../../utils/show-custom-toast.tsx';
 
 type CardProps = {
   offer: Offer;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
-  isNearby?: boolean;
+  parentOfferId?: string;
 }
 
-function CardComponent({offer, onMouseEnter, onMouseLeave, isNearby = false}: CardProps) {
-  const stylePrefix = isNearby ? 'near-places' : 'cities';
+export function Card({offer, onMouseEnter, onMouseLeave, parentOfferId = undefined}: CardProps) {
+  const stylePrefix = parentOfferId ? 'near-places' : 'cities';
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const handleFavoriteClick = useCallback(() => {
+  const handleFavoriteClick = useCallback(async () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
       return;
     }
 
     const newStatus = offer.isFavorite ? 0 : 1;
-    dispatch(changeFavoriteAction({ offerId: offer.id, status: newStatus }));
-  }, [authorizationStatus, offer.isFavorite, offer.id, dispatch]);
+    await dispatch(changeFavoriteAction({offerId: offer.id, status: newStatus}));
+    if (parentOfferId) {
+      dispatch(fetchNearbyOffersAction(parentOfferId));
+    }
+  }, [authorizationStatus, offer.isFavorite, offer.id, dispatch, parentOfferId]);
+
+  const handleClickWrapper = () => {
+    handleFavoriteClick().catch((error) => {
+      showCustomToast(`${error}`);
+    });
+  };
 
   return (
     <article
@@ -53,7 +63,7 @@ function CardComponent({offer, onMouseEnter, onMouseLeave, isNearby = false}: Ca
           <button
             className={`place-card__bookmark-button button ${offer.isFavorite && 'place-card__bookmark-button--active '}button`}
             type="button"
-            onClick={handleFavoriteClick}
+            onClick={handleClickWrapper} // Используем обёртку
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -77,5 +87,3 @@ function CardComponent({offer, onMouseEnter, onMouseLeave, isNearby = false}: Ca
     </article>
   );
 }
-
-export const Card = memo(CardComponent);

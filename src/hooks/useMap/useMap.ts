@@ -40,7 +40,7 @@ export function useMap(mapRef: React.MutableRefObject<null>, city: City) {
       }
 
     }
-  }, [mapRef, city]);
+  }, [mapRef, city, map]);
 
   return map;
 }

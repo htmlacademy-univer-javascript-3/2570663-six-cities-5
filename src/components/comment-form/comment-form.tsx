@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FormEvent, memo, useCallback, useState} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {postCommentAction} from '../../store/api-actions.ts';
-import {showCustomToast} from '../custom-toast/custom-toast.tsx';
+import {showCustomToast} from '../../utils/show-custom-toast.tsx';
 
 const getRatingTitle = (star: number) => {
   switch (star) {

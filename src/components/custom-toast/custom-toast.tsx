@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const CustomToast: React.FC<{ message: string }> = ({ message }) => (
@@ -7,10 +7,6 @@ export const CustomToast: React.FC<{ message: string }> = ({ message }) => (
     {message}
   </div>
 );
-
-export const showCustomToast = (message: string) => {
-  toast(<CustomToast message={message} />);
-};
 
 export function CustomToastContainer() {
   return (

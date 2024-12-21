@@ -14,7 +14,7 @@ function FavoriteCardComponent({offer}: FavoriteCardProps) {
 
   const handleFavoriteClick = useCallback(() => {
     dispatch(changeFavoriteAction({ offerId: offer.id, status: 0 }));
-  }, [offer.isFavorite, offer.id, dispatch]);
+  }, [offer.id, dispatch]);
 
   return (
     <article className={'favorites__card place-card'}>
@@ -23,9 +23,9 @@ function FavoriteCardComponent({offer}: FavoriteCardProps) {
           <span>Premium</span>
         </div>}
       <div className={'favorites__image-wrapper place-card__image-wrapper'}>
-        <a href="#">
+        <Link to={`${AppRoute.Offer}/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place image"/>
-        </a>
+        </Link>
       </div>
       <div className={'favorites__card-info place-card__info'}>
         <div className="place-card__price-wrapper">

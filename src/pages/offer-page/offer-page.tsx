@@ -14,6 +14,7 @@ import {getComments} from '../../store/comments-data/selectors.ts';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {redirectToRoute} from '../../store/action.ts';
 import {getAuthorizationStatus} from '../../store/user-data/selectors.ts';
+import {showCustomToast} from '../../utils/show-custom-toast.tsx';
 
 export function OfferPage() {
   const {id} = useParams<{ id: string }>();
@@ -63,6 +64,12 @@ export function OfferPage() {
     dispatch(fetchDetailedOfferAction(offer.id));
   };
 
+  const handleClickWrapper = () => {
+    handleFavoriteClick().catch((error) => {
+      showCustomToast(`${error}`);
+    });
+  };
+
   return (
     <div className="page">
       <Helmet>
@@ -95,7 +102,7 @@ export function OfferPage() {
                 <button
                   className={`offer__bookmark-button ${offer.isFavorite && 'offer__bookmark-button--active'} button`}
                   type="button"
-                  onClick={() => handleFavoriteClick}
+                  onClick={handleClickWrapper}
                 >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -171,7 +178,7 @@ export function OfferPage() {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <OffersList offers={nearbyOffers} setActiveOfferId={() => {
-            }} isNearby
+            }} parentOfferId={offer.id}
             />
           </section>
         </div>
