@@ -64,12 +64,12 @@ describe('Component: OffersList', () => {
     expect(mockSetActiveOfferId).toHaveBeenCalledWith(null);
   });
 
-  it('should render with "near-places__list places__list" class when isNearby is true', () => {
+  it('should render with "near-places__list places__list" class when isNearby', () => {
     render(
       <OffersList
         offers={mockOffers}
         setActiveOfferId={mockSetActiveOfferId}
-        isNearby
+        parentOfferId={'koekfopw-fjioejf382-2'}
       />
     );
 

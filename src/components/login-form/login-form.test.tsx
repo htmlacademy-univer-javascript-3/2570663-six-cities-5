@@ -2,10 +2,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LoginForm } from './login-form';
 import {loginAction} from '../../store/api-actions';
-import { showCustomToast } from '../custom-toast/custom-toast';
 import {withHistory, withStore} from '../../utils/mock-component.tsx';
+import {showCustomToast} from '../../utils/show-custom-toast.tsx';
 
 vi.mock('../custom-toast/custom-toast', () => ({
+  CustomToast: vi.fn(() => null),
+}));
+
+vi.mock('../../utils/show-custom-toast', () => ({
   showCustomToast: vi.fn(),
 }));
 

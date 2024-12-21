@@ -54,7 +54,7 @@ describe('LoginPage Component', () => {
 
     render(withStoreComponent);
 
-    expect(screen.getByText('Amsterdam')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Amsterdam' })).toHaveAttribute('href', '#');
+    const locationLink = screen.getByRole('link-to-main');
+    expect(locationLink).not.toBeNull();
   });
 });

@@ -1,14 +1,13 @@
-import { memo } from 'react';
 import { Offer } from '../../types/offer';
 import { Card } from '../card/card';
 
 type OffersListProps = {
   offers: Offer[];
   setActiveOfferId: (id: string | null) => void;
-  isNearby?: boolean;
+  parentOfferId?: string;
 }
 
-function OffersListComponent({ offers, setActiveOfferId, isNearby = false }: OffersListProps) {
+export function OffersList({ offers, setActiveOfferId, parentOfferId = undefined }: OffersListProps) {
   const handleMouseEnter = (id: string) => {
     setActiveOfferId(id);
   };
@@ -17,7 +16,7 @@ function OffersListComponent({ offers, setActiveOfferId, isNearby = false }: Off
     setActiveOfferId(null);
   };
 
-  const containerName = isNearby ? 'near-places__list places__list' : 'cities__places-list places__list tabs__content';
+  const containerName = parentOfferId ? 'near-places__list places__list' : 'cities__places-list places__list tabs__content';
 
   return (
     <div className={containerName}>
@@ -27,10 +26,9 @@ function OffersListComponent({ offers, setActiveOfferId, isNearby = false }: Off
           key={offer.id}
           onMouseEnter={() => handleMouseEnter(offer.id)}
           onMouseLeave={handleMouseLeave}
+          parentOfferId={parentOfferId}
         />
       ))}
     </div>
   );
 }
-
-export const OffersList = memo(OffersListComponent);

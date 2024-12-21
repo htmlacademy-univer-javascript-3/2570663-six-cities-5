@@ -1,10 +1,16 @@
 import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { configureMockStore } from '@jedmao/redux-mock-store';
 import { FavoritesList } from './favorites-list';
 import { Offer } from '../../types/offer';
+import {BrowserRouter} from 'react-router-dom';
 
 vi.mock('../favorite-card/favorite-card', () => ({
-  FavoriteCard: vi.fn(({ offer }: {offer: Offer}) => <div data-testid="favorite-card">{offer.title}</div>),
+  FavoriteCard: vi.fn(({ offer }: { offer: Offer }) => <div data-testid="favorite-card">{offer.title}</div>),
 }));
+
+const mockStore = configureMockStore();
+const store = mockStore({});
 
 describe('Component: FavoritesList', () => {
   const mockOffers: Offer[] = [
@@ -47,7 +53,13 @@ describe('Component: FavoritesList', () => {
   ];
 
   it('should render grouped offers by city', () => {
-    render(<FavoritesList offers={mockOffers} />);
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <FavoritesList offers={mockOffers} />
+        </BrowserRouter>
+      </Provider>
+    );
 
     expect(screen.getByText('Paris')).toBeInTheDocument();
     expect(screen.getByText('Amsterdam')).toBeInTheDocument();
@@ -64,7 +76,11 @@ describe('Component: FavoritesList', () => {
   });
 
   it('should render no offers if offers array is empty', () => {
-    render(<FavoritesList offers={[]} />);
+    render(
+      <Provider store={store}>
+        <FavoritesList offers={[]} />
+      </Provider>
+    );
 
     expect(screen.queryByText(/Paris|Amsterdam/)).not.toBeInTheDocument();
     expect(screen.queryByTestId('favorite-card')).not.toBeInTheDocument();
